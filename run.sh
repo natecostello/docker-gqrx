@@ -35,7 +35,7 @@ fi
 xhost 127.0.0.1
 
 # Build
-docker build -t local/gqrx-src $(realpath $(dirname $0))
+docker build -t local/gqrx-src Dockerfile
 
 
 # Run
