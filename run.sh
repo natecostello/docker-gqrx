@@ -9,16 +9,16 @@ VALID_DONGLES="$VALID_DONGLES 1fc9:000c"  # HackRF One
 
 # Is an SDR dongle attached?
 DEV_FLAGS=""
-for dongle in $VALID_DONGLES; do
-    dev_id=$(lsusb -d $dongle | sed -n 's#Bus \([0-9]*\) Device \([0-9]*\).*#\1/\2#p')
-    if [ -n "$dev_id" ]; then
-        DEV_FLAGS="$DEV_FLAGS --device=/dev/bus/usb/$dev_id"
-    fi
-done
-if [ -z "$DEV_FLAGS" ]; then
-    echo "ERROR: no SDR devices attached"
-    exit 1
-fi
+#for dongle in $VALID_DONGLES; do
+#    dev_id=$(lsusb -d $dongle | sed -n 's#Bus \([0-9]*\) Device \([0-9]*\).*#\1/\2#p')
+#    if [ -n "$dev_id" ]; then
+#        DEV_FLAGS="$DEV_FLAGS --device=/dev/bus/usb/$dev_id"
+#    fi
+#done
+#if [ -z "$DEV_FLAGS" ]; then
+#    echo "ERROR: no SDR devices attached"
+#    exit 1
+#fi
 
 
 # Already started?
@@ -40,7 +40,7 @@ docker build -t local/gqrx-src $(realpath $(dirname $0))
 
 # Run
 docker run --rm -i -t \
-       ${DEV_FLAGS} \
+#       ${DEV_FLAGS} \
        --device=/dev/dri:/dev/dri \
        --mount type=bind,source=/Users/ncos/docker_share,target=/hostshare \
        --volume ${HOME}/.config/gqrx:/root/.config/gqrx \
