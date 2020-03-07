@@ -18,8 +18,11 @@ RUN apt-get update && \
                        qtdeclarative5-dev \
                        libpulse-dev \
                        libqt5svg5-dev \
-                       gr-osmosdr
+                       gr-osmosdr 
 
+# Install RTL-SDR Driver
+RUN apt-get update && \
+    apt-get install -y rtl-sdr
 
 # Clone gqrx source
 RUN mkdir -p /opt/gqrx && \
