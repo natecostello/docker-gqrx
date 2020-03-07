@@ -35,7 +35,7 @@ fi
 xhost 127.0.0.1
 
 # Build
-docker build -t local/gqrx-src Dockerfile
+docker build -t local/gqrx-src .
 
 
 # Run
