@@ -29,8 +29,10 @@ fi
 
 
 # Allow docker to connect to current X session
-xhost +local:docker
+#xhost +local:docker
 
+# Not sure if the above works on mac OS - this instead:
+xhost 127.0.0.1
 
 # Build
 docker build -t local/gqrx-src $(realpath $(dirname $0))
@@ -40,14 +42,15 @@ docker build -t local/gqrx-src $(realpath $(dirname $0))
 docker run --rm -i -t \
        ${DEV_FLAGS} \
        --device=/dev/dri:/dev/dri \
+       --mount type=bind,source=/Users/ncos/docker_share,target=/hostshare \
        --volume ${HOME}/.config/gqrx:/root/.config/gqrx \
        --volume /dev/shm:/dev/shm \
-       --volume /tmp/.X11-unix:/tmp/.X11-unix:ro \
+       -v /tmp/.X11-unix:/tmp/.X11-unix\
        --volume /run/user/$(id -u)/pulse:/run/pulse:ro \
        --volume /var/lib/dbus:/var/lib/dbus \
        --volume /dev/snd:/dev/snd \
        --env USER_UID=$(id -u) \
        --env USER_GID=$(id -g) \
-       --env DISPLAY=unix$DISPLAY \
+       -e DISPLAY=host.docker.internal:0\
        --name gqrx-src \
        local/gqrx-src $@
